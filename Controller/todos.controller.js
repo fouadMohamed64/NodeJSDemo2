@@ -2,7 +2,7 @@
 const todosModel = require('../Model/todos.model')
 
 exports.getAllTodos = async (req, res) => {
-    let todos = await todosModel.find().populate('userId' , '-_id -password -__v')
+    let todos = await todosModel.find().populate('userId', '-_id -password -__v')
     res.status(200).json({ message: 'Success', data: todos })
 }
 
@@ -45,10 +45,15 @@ exports.updateTodo = async (req, res) => {
 exports.deleteTodo = async (req, res) => {
     let { id } = req.params;
     try {
-        let todo  = await todosModel.findByIdAndDelete(id)
-        if(!todo) return res.status(404).json({message: 'Todo Is Not Found'})
+        let todo = await todosModel.findByIdAndDelete(id)
+        if (!todo) return res.status(404).json({ message: 'Todo Is Not Found' })
         res.status(204).json()
     } catch (error) {
         res.status(400).json({ message: 'fail' })
     }
+}
+
+exports.viewAllTodos = async (req, res) => {
+    let todos = await todosModel.find();
+    res.render('todos', { todos });
 }

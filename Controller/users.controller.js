@@ -78,7 +78,11 @@ exports.login = async (req, res) => {
         }
 
         let token = jwt.sign({ id: user._id, email: user.email , role: user.role }, process.env.TOKEN_SECRT, { expiresIn: '7h' });
-        res.status(200).json({ message: 'success', token });
+        let refreshToken = jwt.sign({id: user._id, email: user.email , role: user.role} , process.env.REFRESH_TOKEN_SECRT , {expiresIn: '7d'});
+
+        await userModel.findOneAndUpdate( {_id: user._id}, {refreshToken: refreshToken} )
+
+        res.status(200).json({ message: 'success', token , refreshToken });
     } catch (error) {
         res.status(400).json({ message: 'fail' })
     }

@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+const swagger = require('swagger-ui-express');
+const swaggerDocs = require('./swagger.json')
+
 const app = express();
 
 const todosRoutes = require('./Routes/todos.routes');
@@ -22,9 +25,7 @@ dotenv.config();
 
 app.use('/todos', todosRoutes);
 app.use('/users', usersRoutes);
-app.use('/' , function(req, res ,next){
-    res.status(404).json({message: `ther is no endPoint In this name ${req.url}`})
-})
+
 
 
 // hello => hello world
@@ -47,7 +48,15 @@ app.use('/' , function(req, res ,next){
 
 
 
-app.use(express.static('./Static'))
+app.use(express.static('./Static'));
+app.set('view engine' , 'pug');
+app.set('views' , './View');
+
+app.use('/api-docs' , swagger.serve , swagger.setup(swaggerDocs));
+
+app.use('/' , function(req, res ,next){
+    res.status(404).json({message: `ther is no endPoint In this name ${req.url}`})
+})
 
 mongoose.connect('mongodb://127.0.0.1:27017/NTIFive2')
     .then(()=> console.log('Connect to DB Successfully'))
