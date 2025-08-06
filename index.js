@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 const app = express();
 
@@ -17,6 +18,7 @@ const usersRoutes = require('./Routes/users.routes')
 // middleware
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
 app.use('/todos', todosRoutes);
 app.use('/users', usersRoutes);
@@ -62,3 +64,13 @@ app.listen(port, () => {
  * REstful API => aplication programing interface
  * endPoint => todos
  */
+
+
+
+
+
+
+
+// 123456   => dkfjfr34984hfdf34890dkfjd
+
+// 1234567   => dkfjfr34984dfdfdhfdf34890dkfjd

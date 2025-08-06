@@ -14,7 +14,8 @@ const todosSchema = mongoose.Schema({
     },
     userId: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'user'
+        ref: 'user',
+        // required: true
     }
 });
 
